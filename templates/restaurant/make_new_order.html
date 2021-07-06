@@ -1,0 +1,128 @@
+{% extends 'restaurant/base.html' %}
+
+{% block  content %}
+
+
+
+
+    <br>
+    {% if see_orders is not None %}
+    <div class="container">
+    <h4></h4>
+        <div class="row" style="overflow: auto">
+   <div class="col-lg-12 shadow  m-2" >
+               <table class="table table-striped" >
+                  <thead class="bg-warning ">
+
+                  <tr>
+
+                      <th scope="col">Dish Name</th>
+
+                        <th scope="col">Quatity</th>
+
+                        <th scope="col">Price</th>
+                      <th scope="col">Final Product Price</th>
+
+<th scope="col">Update</th>
+                      <th scope="col">Cancel</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                          {% for see_order in see_orders %}
+
+                    <tr>
+                    <form action="{% url 'update_item_quantity' id=see_order.id %}" method="post">
+                        {% csrf_token %}
+<td>                        {{ see_order.item_name }}</td>
+<td ><input  type="text" name="quantity" value="{{ see_order.quantity }}"></td>
+                        <td ><input  type="text" name="item_price" value="{{see_order.item_price}}"></td>
+                    <td id="result"><input type="text"  value="{{ see_order.total }}"  name="total"></td>
+                       <td> <button class="btn btn-sm btn-warning" >Update</button></td>
+                    <td><a class="btn btn-sm btn-danger" href="{% url 'cancel_item' id=see_order.id %}">Cancel</a></td>
+                    </form></tr>
+       {% endfor %}
+
+                  </tbody>
+                </table>
+   <form class="pb-2" method="post" action="{% url 'confirm_order' %}">
+       {% csrf_token %}
+       <input type="hidden" value="{{ orderid }}" name="orderid"><button class="btn btn-info">Confirm Order</button>
+                  </form>
+
+            </div>
+
+
+  {% endif %}
+    <br>
+
+    <div class="container">
+       <a href="{% url 'table' %}" class="btn btn-primary m-1">All orders </a>
+               <a href="{% url 'complete_order' %}" class="btn btn-success m-1">Complete Orders</a>
+
+               <a href="{% url 'pending_order' %}" class="btn btn-warning">Pending Orders </a>
+<br><br>
+<form class="d-flex" style="max-width: 300px;" action="{% url 'on_order' id=orderid %}" method="post" >
+    {% csrf_token %}
+      <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-dark" type="submit">Search</button>
+    </form>
+
+    </div>
+    <br>
+    <div class="container"><h1>{{ orderid }}</h1></div>
+    <br>
+    <div class="container">
+        <div class="row" style="overflow: auto">
+ <div class="col-lg-12 shadow  m-2" >
+               <table class="table table-striped" >
+                  <thead class="bg-warning ">
+                    <tr>
+
+
+                      <th scope="col">Dish Name</th>
+                                             <th scope="col">Price</th>
+                        <th scope="col">Quatity</th>
+
+                                             <th scope="col">Dish Type</th>
+<th scope="col">Save Order</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for dish in dish %}
+                    <tr>
+                    <form action="{% url 'save_order' %}" method="get" >
+                        <input type="hidden" value="{{ orderid }}" name="orderid" readonly>
+                      <td><input type="text" name="item_name" value="{{dish.item_name}}" style="border: none;background: none;" readonly></td>
+                      <td><input type="text" name="item_price" value="{{dish.item_price}}" style="border: none;background: none;" readonly> </td>
+                      <td><input type="text" name="quantity" style="background: none;" required></td>
+                        <td><input type="text" name="dish_type" value="{{dish.dish_type}}" style="border: none;background: none;" readonly></td>
+                    <td><button class="btn btn-primary btn-sm">Save</button></td>
+                    </form>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+
+            <div class=" shadow  m-2">
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+function getprice(id){
+    	console.log("Hii");
+
+	num1 = document.getElementById(id+"_qut").value;
+	console.log(num1);
+	num2 = document.getElementById(id+"_price").value;
+	result = num1 * num2;
+	document.getElementById(id+"_result").value = result;
+}
+</script>
+<br>
+
+
+{% endblock %}
