@@ -1,0 +1,126 @@
+{% extends 'restaurant/base.html' %}
+{% block content %}
+    <div class="container shadow mt-5" style="max-width:500px;width:90%;background-color: white;border-radius: 20px">
+        <p class="text-center p-3" style="font-family: bold;font-size: 25px;">Profile</p>
+
+    <!-- Button trigger modal -->
+<center>
+        <a  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">            <i class="fas fa-edit" style="float: right"></i>
+
+    <img class="image" src="{{ profile_data.restaurant_logo.url }}" style="width: 150px;height:150px;border-radius: 100px;">
+<br>
+</a>
+</center>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Image</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <form action="{% url 'update_profile' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+      <div class="modal-body">
+        <input type="file" name="restaurant_logo" class="form-control">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-warning">Update Logo</button>
+      </div>
+            </form>
+    </div>
+  </div>
+</div>
+<br><br>
+<form method="post" action="{% url 'update_profile' %}">
+    {% csrf_token %}
+    <div class="row p-3 ">
+        <div class="col-lg-4">Name Of Restaurant</div>
+        <input type="text" name="restaurant_name" value="{{ profile_data.restaurant_name }}" placeholder="Enter Restaurant Name" class="col-lg-5" required>
+        <button  class="col-lg-3 btn btn-sm  btn-outline-warning"  >Update </button>
+    </div>
+</form>
+<form>
+    <div class="row p-3 ">
+        <div class="col-lg-4">Email</div>
+        <input type="text" name="restaurant_email" value="{{ profile_data.restaurant_email}}" placeholder="Enter Restaurant Email" class="col-lg-5" readonly>
+        <small  class="col-lg-3 bg-secondary" style="color: white" >Email cannot be changed </small>
+    </div>
+</form>
+<form method="post" action="{% url 'update_profile' %}">
+    {% csrf_token %}
+    <div class="row p-3 ">
+        <div class="col-lg-4">Mobile Number</div>
+        <input type="text" name="restaurant_mobile_number" value="{{ profile_data.restaurant_mobile_number}}" placeholder="Enter Contact Number" class="col-lg-5" required>
+        <button  class="col-lg-3 btn btn-sm  btn-outline-warning"  >Update </button>
+    </div>
+</form>
+<form method="post" action="{% url 'update_profile' %}">
+    {% csrf_token %}
+    <div class="row p-3 ">
+        <div class="col-lg-4">Address</div>
+        <input type="text" name="restaurant_address" value="{{ profile_data.restaurant_address }}" placeholder="Enter Restaurant Address" class="col-lg-5" required>
+        <button  class="col-lg-3 btn btn-sm  btn-outline-warning"  >Update </button>
+    </div>
+</form>
+
+<form method="post" action="{% url 'update_profile' %}">
+    {% csrf_token %}
+    <div class="row p-3 ">
+        <div class="col-lg-4">City</div>
+        <input type="text" name="restaurant_city" value="{{ profile_data.restaurant_city}}" placeholder="Enter Restaurant city" class="col-lg-5" required>
+        <button  class="col-lg-3 btn btn-sm  btn-outline-warning"  >Update </button>
+    </div>
+</form>
+<form method="post" action="{% url 'update_profile' %}">
+    {% csrf_token %}
+    <div class="row p-3 ">
+        <div class="col-lg-4">State</div>
+        <input type="text" name="restaurant_state" value="{{ profile_data.restaurant_state}}" placeholder="Enter Restaurant State" class="col-lg-5" required>
+        <button  class="col-lg-3 btn btn-sm  btn-outline-warning"  >Update </button>
+    </div>
+</form>
+<form method="post" action="{% url 'update_profile' %}">
+    {% csrf_token %}
+    <div class="row p-3 ">
+        <div class="col-lg-4">Pincode</div>
+        <input type="text" name="restaurant_pincode" value="{{ profile_data.restaurant_pincode}}" placeholder="Enter Restaurant pincode" class="col-lg-5" required>
+        <button  class="col-lg-3 btn btn-sm  btn-outline-warning"  >Update </button>
+    </div>
+</form>
+<form method="post" action="{% url 'update_profile' %}">
+    {% csrf_token %}
+    <div class="row p-3 ">
+        <div class="col-lg-4">Type</div>
+        <select name="restaurant_type" class="col-lg-5" required>
+            <option value="{{ profile_data.restaurant_type }}" selected>{{ profile_data.restaurant_type }}</option>
+            {% for data in type %}
+                <option value="{{ data.id }}">{{ data.type_name}}</option>
+            {% endfor %}
+        </select>
+        <button  class="col-lg-3 btn btn-sm  btn-outline-warning"  >Update </button>
+    </div>
+</form>
+<form method="post" action="{% url 'update_profile' %}">
+    {% csrf_token %}
+    <div class="row p-3 ">
+        <div class="col-lg-4">Password</div>
+        <input type="password" name="restaurant_password" value="{{ profile_data.restaurant_password}}" placeholder="Enter Restaurant pincode" class="col-lg-5" required>
+        <button  class="col-lg-3 btn btn-sm  btn-outline-warning"  >Update </button>
+    </div>
+</form>
+
+        <form method="post" action="{% url 'update_profile' %}">
+    {% csrf_token %}
+    <div class="row p-3 ">
+        <div class="col-lg-4">Description</div>
+        <textarea rows="3" name="restaurant_description"  placeholder="Enter Restaurant Description" class="col-lg-5" required>{{ profile_data.restaurant_description}}</textarea>
+        <button  class="col-lg-3 btn btn-sm  btn-outline-warning"  >Update </button>
+    </div>
+</form>
+
+
+    </div>
+    <br><br>
+{% endblock %}

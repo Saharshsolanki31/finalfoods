@@ -1,0 +1,103 @@
+{% extends 'user/base.html' %}
+{% block content %}
+    <div class="container shadow mt-5 p-2" style="width:99%; ">
+
+<h2 class="text-center">Book your Table Now</h2>
+    <form method="post" action="{% url 'book_table' id=id %}">
+        {% csrf_token %}
+        <div class="row p-2">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3 m-2">
+                <input type="text" name="user_name" placeholder="Enter Name" class="form-control" required>
+            </div>
+            <div class="col-lg-3 m-2">
+                 <input type="text" name="user_contact" placeholder="Enter Number" value="{{ user_data.phone }}" class="form-control" required>
+
+            </div>
+            <div class="col-lg-3 m-2">
+                        <input type="email" name="user_email" placeholder="Enter Email" value="{{ user_data.email }}" class="form-control" readonly style="background-color: transparent">
+        </div>
+
+            <div class="col-lg-1"></div>
+
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3 m-2">
+                <input type="date" name="date" placeholder="Enter Check-in Date " class="form-control" required>
+            </div>
+            <div class="col-lg-3 m-2">
+                 <input type="time" name="time" placeholder="Enter check-in Time"  class="form-control" required>
+
+            </div>
+            <div class="col-lg-3 m-2">
+                        <select name="guests"  class="form-control form-select" required>
+                        <option disabled selected>Select Number of Guest</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+        </div>
+
+        </div>
+        <br>
+        <center>
+        <button type="submit" class="btn btn-primary">Book Table</button></center>
+    </form>
+<br><br>
+    </div>
+<div class="container shadow mt-5 p-3">
+<h2 class="p-3">Your Bookings</h2>
+            <div class="row " style="overflow: auto; ">
+   <div class="col-lg-12 shadow  m-2" >
+               <table class="table table-striped" >
+                  <thead class="bg-warning ">
+
+                  <tr>
+<th  scope="col"> Restaurant Name</th>
+                      <th scope="col">Name</th>
+
+                        <th scope="col">Number</th>
+
+                      <th scope="col">Date of Booking</th>
+
+<th scope="col">Time of Booking</th>
+                      <th scope="col">Status</th>
+                                            <th scope="col">Cancel Booking</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+{% for data in booking_details %}
+                    <tr>
+                    <td>{{ data.restaurant_name }}</td>
+                    <td>{{ data.user_name }}</td>
+                    <td>{{ data.user_contact }}</td>
+                    <td>{{ data.date }}</td>
+                                        <td>{{ data.time }}</td>
+{% if data.status == 'confirm' %}
+                    <td><p class="btn btn-sm btn-primary">{{ data.status }}</p></td>
+                        {% elif data.status == 'pending' %}
+                     <td><p class="btn btn-sm btn-warning">{{ data.status }}</p></td>
+{% else %}
+                                            <td><p class="btn btn-sm btn-danger">{{ data.status }}</p></td>
+{% endif %}
+                    {% if data.status == 'cancel' %}
+                   <td></td>
+                    {% else %}
+                                        <td><a href="{% url 'cancel_booking' id=data.id %}" class="btn btn-sm btn-danger">Cancel Booking</a></td>
+{% endif %}
+
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+
+   </div></div>
+</div>
+{% endblock %}
