@@ -1,0 +1,50 @@
+{% extends 'restaurant/base.html' %}
+{% block content %}
+    <div class="container shadow mt-5">
+<h2 class="p-3">Users Table Booked</h2>
+            <div class="row" style="overflow: auto">
+   <div class="col-lg-12 shadow  m-2" >
+               <table class="table table-striped" >
+                  <thead class="bg-warning ">
+
+                  <tr>
+
+                      <th scope="col">User Name</th>
+<th scope="col">User Contact</th>
+
+                        <th scope="col">Date</th>
+
+                        <th scope="col">Time</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for data in table_bookings %}
+<tr>
+    <td>{{ data.user_name }}</td>
+    <td>{{ data.user_contact }}</td>
+    <td>{{ data.date }}</td>
+    <td>{{ data.time }}</td>
+{% if data.status == 'confirm' %}
+    <td><p class="btn btn-sm btn-primary">{{ data.status }}</p></td>
+    {% elif data.status == 'pending' %}
+        <td><p class="btn btn-sm btn-warning">{{ data.status }}</p></td>
+{% else %}
+    <td><p class="btn btn-sm btn-danger">{{ data.status }}</p></td>
+{% endif %}
+
+{% if data.status == 'pending' %}
+    <td><a href="{% url 'confirm_table_booking' id=data.id %}" class="btn-primary btn btn-sm m-1">Confirm</a><a href="{% url 'cancel_table_booking' id=data.id %}" class="btn-danger btn btn-sm m-1">Cancel</a></td>
+
+{% elif data.status == 'cancel' %}
+    <td><a href="{% url 'confirm_table_booking' id=data.id %}" class="btn btn-sm btn-primary">Confirm</a>
+</td>
+{% else %}
+    <td><a href="{% url 'cancel_table_booking' id=data.id %}" class="btn btn-sm btn-danger">Cancel</a></td>
+{% endif %}
+</tr>{% endfor %}
+                  </tbody>
+                </table>
+   </div></div></div>
+{% endblock %}
