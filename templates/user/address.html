@@ -1,0 +1,136 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+
+    <br>
+    <div class="container" >
+       <a href="{% url 'restaurant_menu' %}" class="btn btn-primary">Add Address</a>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 shadow p-4 m-2">
+
+                <h5 class="card-title text-center">Add Address</h5>
+                <form action="{% url 'delivery_address' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label">Enter Name </label>
+                            <input type="text" class="form-control" name="user_name" required>
+                          </div>
+                        </div>
+
+                       <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label">Enter Address </label>
+                            <input type="text" class="form-control" name="address" required>
+                          </div>
+                       </div>
+                  </div>
+
+                  <div class="row">
+                        <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label"> Landmark (optional) </label>
+                            <input type="text" class="form-control" name="landmark">
+                          </div>
+                        </div>
+
+                       <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label">Enter city </label>
+                            <input type="text" class="form-control" name="city" required>
+                          </div>
+                       </div>
+                  </div>
+
+                 <div class="row">
+                        <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label"> state </label>
+                            <input type="text" class="form-control" name="state">
+                          </div>
+                        </div>
+
+                       <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label">Enter pincode </label>
+                            <input type="text" class="form-control" name="pincode" required>
+                          </div>
+                       </div>
+                  </div>
+
+
+                 <div class="row">
+                        <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label"> Enter Mobile  Number </label>
+                            <input type="text" class="form-control" name="mobile_number">
+                          </div>
+                        </div>
+
+                       <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label"> Alternate Number (optional) </label>
+                            <input type="text" class="form-control" name="alternate_mobile_number" >
+                          </div>
+                       </div>
+                  </div>
+
+
+                 <div class="mb-3">
+
+                    <input type="hidden" class="form-control" value="232.2" name="latitude">
+                  </div>
+
+
+                    <div class="mb-3">
+                    <input type="hidden" class="form-control" value="343" name="longitude">
+                  </div>
+
+
+                  <center><button type="submit" class="btn btn-primary">Add</button></center>
+                </form>
+              </div>
+
+
+            <div class="col-lg-6 shadow  m-2" >
+
+
+               <table class="table table-striped" style="overflow: scroll;width: 90%;">
+                  <thead class="bg-warning ">
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">address</th>
+                      <th scope="col">city</th>
+                      <th scope="col">pincode </th>
+                        <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                  {%  for address_data in address_data %}
+                    <tr>
+                      <td>{{ address_data.name }}</td>
+                        <td ><textarea style="max-width: 140px;max-height:70px;background:none;overflow: scroll;">{{ address_data.address }}</textarea></td>
+                      <td>{{ address_data.city }}</td>
+                      <td>{{ address_data.pincode }}</td>
+                        <td>
+                        <a href="{% url 'edit_user_address' id=address_data.id %}" class="btn btn-warning">edit</a>
+                        &nbsp;
+                        <a href="{% url 'delete_user_address' id=address_data.id %}" class="btn btn-danger">delete</a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

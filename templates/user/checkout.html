@@ -1,0 +1,91 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+       <div class="row">
+           <div class="col-4 p-3 shadow">
+           <div class="bg-secodary p-2">Checkout :</div>
+
+            <table class="table table-striped shadow">
+              <thead class="bg-warning" >
+                <tr>
+                  <th scope="col">Item</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Qut.</th>
+                  <th scope="col">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for cart_data in cart_data %}
+                <tr>
+                  <td style="width: 70px;">
+                      <div >{{ cart_data.food_id.item_name }}</div>
+                  </td>
+                  <td>
+                      {{ cart_data.food_id.item_price }}
+                  </td>
+                  <td>
+                     X<span class="text-center p-1" type="text" value="" style="width: 30px;" >{{ cart_data.food_quantity }}</span>
+                  </td>
+                  <td>RS.{{ cart_data.food_total_price }}</td>
+                </tr>
+            {% endfor  %}
+              <tr>
+                  <td class="text-center" colspan="2">
+                      Sub Total :
+                  </td>
+                  <td class="text-center" colspan="2">
+                      Rs.<b>{{ total }}</b>
+                  </td>
+              </tr>
+              </tbody>
+            </table>
+           </div>
+
+
+       <div class="col-lg-6 m-2 p-4 shadow">
+          {% if delivery_type == "pickup" %}
+            <form action="">
+            <div class="mb-3">
+                <label>Select Pickup Time</label>
+               <input type="time" class="form-control">
+            </div>
+           </form>
+              {% else %}
+              <form action="{% url 'do_checkout_delivery' %}" method="post"><br>
+              {% csrf_token %}
+                <div class="mb-3">
+                <label  class="m-1">Select Delivery Address</label>
+                <select name="address" class=" form-select" required>
+                            <option value="none" selected>Select Delivery Address</option>
+                            {% for address in address %}
+                               <option value="{{ address.id }}"> {{ address.name }} ,  {{ address.address }} </option>
+                            {% endfor %}
+                </select>
+                </div>
+              <div class="mb-3">
+                  <label class="m-1"><h4>Payment Method </h4> </label><br>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="payment_method" id="payment" value="paytm" checked>
+                      <label class="form-check-label" for="inlineRadio1">Pay By Paytm</label>
+                    </div><br>
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="payment_method" id="payment" value="cod" >
+                      <label class="form-check-label" for="inlineRadio2">Cash On Delivery</label>
+                    </div>
+                  </div><br>
+
+                  <div class="mb-3">
+                      <input type="submit" class="btn btn-primary" value="Procced To Pay RS.{{ total }}" style="width: 100%;">
+                  </div>
+
+           </form>
+           {% endif %}
+       </div>
+
+       </div>
+    </div>
+
+{% endblock %}

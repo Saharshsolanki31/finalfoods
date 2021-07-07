@@ -1,0 +1,73 @@
+{% extends 'restaurant/base.html' %}
+
+{% block  content %}
+<br>
+
+    <div class="container">
+       <a href="{% url 'make_new_order' %}" class="btn btn-primary">Make New order </a>
+
+               <a href="{% url 'complete_order' %}" class="btn btn-success">Complete Orders </a>
+<a href="{% url 'pending_order' %}" class="btn btn-warning">Pending Orders</a>
+        <br><br>
+<form class="d-flex" style="max-width: 300px;" action="{% url 'table' %}" method="post" >
+    {% csrf_token %}
+      <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-dark" type="submit">Search</button>
+    </form>
+    </div>
+    <br>
+    {% for orderid in orderid  %}
+    <div class="container">
+    <h4></h4>
+        <div class="row" style="overflow: auto">
+ <div class="col-lg-12 shadow  m-2" >
+ <div class="bg-light p-3 " >Order ID : {{ orderid.orderid }}</div>
+               <table class="table table-striped" >
+                  <thead class="bg-warning ">
+
+                  <tr>
+
+                      <th scope="col">Dish Name</th>
+                        <th scope="col">Price</th>
+
+                        <th scope="col">Quatity</th>
+                        <th scope="col">Total Amounts</th>
+                        <th scope="col">Complete</th>
+
+
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for all_order in all_orders %}
+{% ifequal all_order.orderid orderid.orderid %}
+                    <tr>
+<td>                        {{ all_order.item_name }}</td>
+<td>                        {{ all_order.item_price }}</td>
+
+                        <td>                        {{ all_order.quantity }}</td>
+                        <td>                        {{ all_order.total }}</td>
+{% ifequal all_order.status "pending" %}
+                        <td><a href="#" class="btn btn-sm btn-warning">Pending</a></td>
+                    {% else %}
+                        <td><a href="#" class="btn btn-sm btn-success">Complete</a></td>
+
+                    {% endifequal %}
+                    </tr>
+                      {% endifequal %}
+                  {% endfor %}
+                  <tr><td>Final Amount to be paid</td><td></td><td></td>
+                  {% for finalprice in finalprice %}{% ifequal finalprice.orderid orderid.orderid %}
+<td>{{ finalprice.final_price }}</td>{% endifequal %}{% endfor %}<td></td><td></td>
+                  </tr>
+                  </tbody>
+                </table>
+            </div>
+
+            <div class=" shadow  m-2">
+
+            </div>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

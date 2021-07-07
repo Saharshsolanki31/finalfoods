@@ -1,0 +1,65 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="bg-light p-3"><h4>Cart : </h4></div>
+{% if  cart_data %}
+    <table class="table table-striped shadow">
+  <thead class="bg-warning" >
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Action</th>
+      <th scope="col">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for cart_data in cart_data %}
+    <tr>
+      <td>
+          {% for food_data in food_data %}
+          {% ifequal food_data.id cart_data.food_id.id %}
+          {{ food_data.item_name }}
+          {% endifequal %}
+          {% endfor %}
+      </td>
+      <td>
+          <a href="{% url 'update_item_quantity' type='remove' id=cart_data.id %}" class="btn btn-sm bp3-text-small btn-light border border-dark">-</a>
+          <span class="text-center p-1" type="text" value="" style="width: 30px;" >{{ cart_data.food_quantity }}</span>
+          <a href="{% url 'update_item_quantity' type='add' id=cart_data.id %}" class="btn btn-sm bp3-text-small  btn-dark">+</a>
+      </td>
+      <td>
+          <a href="{% url 'remove_item_from_cart' id=cart_data.id %}" class="btn btn-sm btn-danger">Remove</a>
+      </td>
+      <td>RS.{{ cart_data.food_total_price }}</td>
+    </tr>
+{% endfor  %}
+
+
+        <tr class="">
+
+            <td colspan="4 ">
+                <form action="{% url 'checkout' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-group ">
+                        <select class="form-select " name="delivery_type" required>
+                            <option value="unselected" selected>Select Delivery Type</option>
+                            <option value="pickup">I Will Pickup From Restaurant</option>
+                            <option value="deliver">Delivery To My Address</option>
+                        </select>
+                       <input type="submit" style="width:40%;" class="btn btn-warning pull-left" value="Checkout">
+                   </div>
+                </form>
+
+            </td>
+        </tr>
+
+  </tbody>
+</table>
+{% else %}
+    <h5 class="text-center p-3">Your Cart is empty</h5>
+{% endif %}
+    </div>
+
+{% endblock %}

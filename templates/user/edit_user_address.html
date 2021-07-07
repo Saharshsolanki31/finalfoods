@@ -1,0 +1,101 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+
+    <br>
+    <div class="container" >
+       <a href="{% url 'delivery_address' %}" class="btn btn-primary">Go Back</a>
+    </div>
+    <br>
+    <div class="container">
+
+                <h4 class="card-title text-center">Edit Address</h4>
+                <form action="{% url 'edit_user_address' id=id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label">Enter Name </label>
+                            <input type="text" class="form-control" value="{{ data.name }}" name="user_name" required>
+                          </div>
+                        </div>
+
+                       <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label">Enter Address </label>
+                            <input type="text" class="form-control" value="{{ data.address }}" name="address" required>
+                          </div>
+                       </div>
+                  </div>
+
+                  <div class="row">
+                        <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label"> Landmark (optional) </label>
+                            <input type="text" class="form-control"  value="{{ data.landmark}}" name="landmark">
+                          </div>
+                        </div>
+
+                       <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label">Enter city </label>
+                            <input type="text" class="form-control"  value="{{ data.city }}" name="city" required>
+                          </div>
+                       </div>
+                  </div>
+
+                 <div class="row">
+                        <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label"> state </label>
+                            <input type="text" class="form-control"  value="{{ data.state }}" name="state">
+                          </div>
+                        </div>
+
+                       <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label">Enter pincode </label>
+                            <input type="text" class="form-control"  value="{{ data.pincode }}" name="pincode" required>
+                          </div>
+                       </div>
+                  </div>
+
+
+                 <div class="row">
+                        <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label"> Enter Mobile  Number </label>
+                            <input type="text" class="form-control"  value="{{ data.mobile_number }}" name="mobile_number">
+                          </div>
+                        </div>
+
+                       <div class="col-lg-5 m-1">
+                          <div class="mb-3">
+                            <label class="form-label"> Alternate Number (optional) </label>
+                            <input type="text" class="form-control"  value="{{ data.alternate_mobile_number }}" name="alternate_mobile_number" >
+                          </div>
+                       </div>
+                  </div>
+
+
+                 <div class="mb-3">
+
+                    <input type="hidden" class="form-control" value="{{ data.latitude }}"   name="latitude">
+                  </div>
+
+
+                    <div class="mb-3">
+                    <input type="hidden" class="form-control"  value="{{ data.longitude }}" name="longitude">
+                  </div>
+
+
+                  <center><button type="submit" class="btn btn-warning">Update Address</button></center>
+                </form>
+              </div>
+
+
+    </div>
+
+
+{% endblock %}
